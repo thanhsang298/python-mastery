@@ -1,4 +1,5 @@
 # stock.py
+from pathlib import Path
 
 class Stock:
     types = (str, int, float)
@@ -35,6 +36,6 @@ def read_portfolio(filename):
 if __name__ == '__main__':
     import tableformat
     import reader
-    # portfolio = read_portfolio('../../Data/portfolio.csv')
-    portfolio = reader.read_csv_as_instances('../../Data/portfolio.csv', Stock)
+    data_path = Path('Data/portfolio.csv').resolve()
+    portfolio = reader.read_csv_as_instances(data_path, Stock)
     tableformat.print_table(portfolio, ['name', 'shares', 'price'])

@@ -1,4 +1,5 @@
 # stock.py
+from pathlib import Path
 
 class Stock:
     def __init__(self, name, shares, price):
@@ -30,12 +31,12 @@ def print_portfolio(portfolio):
     '''
     Make a nicely formatted table showing stock data
     '''
-    print('%10s %10s %10s' % ('name', 'shares', 'price'))
-    print(('-'*10 + ' ')*3)
+    print('%15s %15s %15s' % ('name', 'shares', 'price'))
+    print(('-'*15 + ' ')*3)
     for s in portfolio:
-        print('%10s %10d %10.2f' % (s.name, s.shares, s.price))
+        print('%15s %15d %15.2f' % (s.name, s.shares, s.price))
 
 if __name__ == '__main__':
-    portfolio = read_portfolio('../../Data/portfolio.csv')
+    portfolio = read_portfolio(Path('Data/portfolio.csv').resolve())
     print_portfolio(portfolio)
 

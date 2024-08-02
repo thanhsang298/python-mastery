@@ -1,4 +1,5 @@
 # stock.py
+from pathlib import Path
 
 class Stock:
     def __init__(self, name, shares, price):
@@ -28,6 +29,6 @@ def read_portfolio(filename):
     return portfolio
 
 if __name__ == '__main__':
-    import tableformat
-    portfolio = read_portfolio('../../Data/portfolio.csv')
-    tableformat.print_table(portfolio, ['name','shares','price'])
+    import tableformat_
+    portfolio = read_portfolio(Path('Data/portfolio.csv').resolve())
+    tableformat_.print_table(portfolio, ['name','shares','price'])

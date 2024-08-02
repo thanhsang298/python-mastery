@@ -1,24 +1,18 @@
-# tableformat.py
-from abc import ABC, abstractmethod
+# Practice for tableformat
 
 def print_table(records, fields, formatter):
-    if not isinstance(formatter, TableFormatter):
-        raise TypeError('Expected a TableFormatter')
-
     formatter.headings(fields)
     for r in records:
         rowdata = [getattr(r, fieldname) for fieldname in fields]
         formatter.row(rowdata)
 
-class TableFormatter(ABC):
-    @abstractmethod
+class TableFormatter:
     def headings(self, headers):
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def row(self, rowdata):
-        pass
-
+        raise NotImplementedError()
+    
 class TextTableFormatter(TableFormatter):
     def headings(self, headers):
         print(' '.join('%10s' % h for h in headers))
@@ -28,18 +22,18 @@ class TextTableFormatter(TableFormatter):
         print(' '.join('%10s' % d for d in rowdata))
 
 class CSVTableFormatter(TableFormatter):
-    def headings(self, headers):
-        print(','.join(headers))
+    def headings(self, headers): 
+        print(",".join(headers)) 
 
     def row(self, rowdata):
-        print(','.join(str(d) for d in rowdata))
+        print(','.join('%s' % d for d in rowdata)) 
 
 class HTMLTableFormatter(TableFormatter):
-    def headings(self, headers):
-        print('<tr>', end=' ')
-        for h in headers:
-            print('<th>%s</th>' % h, end=' ')
-        print('</tr>')
+    def headings(self, headers): 
+        print("<tr>", end=" ")
+        for header in headers: 
+            print("<th>%s</th>" %header, end=" ")
+        print("/tr")
 
     def row(self, rowdata):
         print('<tr>', end=' ')
@@ -47,24 +41,13 @@ class HTMLTableFormatter(TableFormatter):
             print('<td>%s</td>' % d, end=' ')
         print('</tr>')
 
-def create_formatter(name):
-    if name == 'text':
+def create_formatter(format): 
+    if format == "text": 
         formatter = TextTableFormatter
-    elif name == 'csv':
+    elif format == "csv": 
         formatter = CSVTableFormatter
-    elif name == 'html':
+    elif format == "html": 
         formatter = HTMLTableFormatter
-    else:
-        raise RuntimeError('Unknown format %s' % name)
+    else: 
+        raise RuntimeError("Unknown format %s" % format)
     return formatter()
-
-class NewFormatter(TableFormatter):
-    def headers(self, headings):
-        print("")
-    def row(self, rowdata):
-        print("")
-
-if __name__ == "__main__":
-    f = NewFormatter()
-
-
